@@ -28,7 +28,7 @@ function printInitialVariables(){
 
 function downloadAndUntar(){
 	if [ ! -d "$3" ]; then
-		wget -N $1
+		wget --no-check-certificate -N $1
 		tar xvfz $2
 	fi
 }
