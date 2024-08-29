@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 ./scripts/buildSDL.sh
 ./scripts/buildZLib.sh
