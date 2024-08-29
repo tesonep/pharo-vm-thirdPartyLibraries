@@ -75,7 +75,7 @@ function applyPatch(){
 	local patch_dir=$(realpath "$(dirname ${BASH_SOURCE[0]})/patches")
 
 	if [ -f "$patch_dir/$1-$SYSTEM_NAME.patch" ]; then
-		patch --forward -i $patch_dir/$1-$SYSTEM_NAME.patch || true
+		patch -p --forward -i $patch_dir/$1-$SYSTEM_NAME.patch || true
 	fi
 
 }
