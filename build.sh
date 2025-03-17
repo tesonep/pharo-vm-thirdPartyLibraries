@@ -10,4 +10,6 @@
 ./scripts/buildCairo.sh
 ./scripts/buildHarfbuzz.sh
 
+./scripts/buildFreetype-secondTime.sh
+
 ./scripts/packageSDL.sh
