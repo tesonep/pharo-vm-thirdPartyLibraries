@@ -7,7 +7,7 @@ source "$INCLUDE_DIR/common.inc"
 pushd $BUILD_DIR
 
 downloadAndUntar https://freedesktop.org/software/fontconfig/release/fontconfig-$FONTCONFIG_VERSION.tar.xz fontconfig-$FONTCONFIG_VERSION.tar.xz fontconfig-$FONTCONFIG_VERSION
-buildUsingMeson Fontconfig $FONTCONFIG_VERSION fontconfig-$FONTCONFIG_VERSION -Dcache-build=disabled
+buildUsingMeson Fontconfig $FONTCONFIG_VERSION fontconfig-$FONTCONFIG_VERSION -Dcache-build=disabled --force-fallback-for=intl
 
 install_name_tool -id "@executable_path/Plugins/libfontconfig.1.dylib" lib/libfontconfig.1.dylib
 
