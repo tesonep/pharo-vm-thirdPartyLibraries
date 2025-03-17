@@ -1,6 +1,6 @@
-diff -Naur original/SDL2-2.30.6/src/video/cocoa/SDL_cocoakeyboard.m SDL2-2.30.6/src/video/cocoa/SDL_cocoakeyboard.m
---- original/SDL2-2.30.6/src/video/cocoa/SDL_cocoakeyboard.m	2024-05-01 18:16:27
-+++ SDL2-2.30.6/src/video/cocoa/SDL_cocoakeyboard.m	2024-05-30 15:34:38
+diff -Naur original/SDL2-2.32.2/src/video/cocoa/SDL_cocoakeyboard.m SDL2-2.32.2/src/video/cocoa/SDL_cocoakeyboard.m
+--- original/SDL2-2.32.2/src/video/cocoa/SDL_cocoakeyboard.m	2024-05-01 18:16:27
++++ SDL2-2.32.2/src/video/cocoa/SDL_cocoakeyboard.m	2024-05-30 15:34:38
 @@ -383,9 +383,51 @@
      [data.fieldEdit setInputRect:rect];
  }

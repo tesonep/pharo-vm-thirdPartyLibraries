@@ -29,7 +29,13 @@ function printInitialVariables(){
 function downloadAndUntar(){
 	if [ ! -d "$3" ]; then
 		wget --no-check-certificate -N $1
-		tar xvfz $2
+		
+		if [[ $2 == *.gz ]];then
+			tar xvfz $2
+		else
+			# we are using .xz files
+			tar xvfJ $2
+		fi
 	fi
 }
 
