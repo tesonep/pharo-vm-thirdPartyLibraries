@@ -86,4 +86,18 @@ function applyPatch(){
 
 }
 
+function buildPackage(){
+	local libName=$1
+	local libVersion=$2
+	local filesToInclude="${@:3}"
+
+	rm -f packages/$libName-$libVersion.zip
+
+	pushd lib
+	zip -9 -y ../packages/$libName-$libVersion.zip $filesToInclude
+	popd
+
+	unzip -l packages/$libName-$libVersion.zip
+}
+
 initEnvironment

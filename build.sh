@@ -1,4 +1,8 @@
  #!/bin/bash
+ 
+set -x 
+set -e
+ 
 
 ./scripts/buildSDL.sh
 ./scripts/buildZLib.sh
