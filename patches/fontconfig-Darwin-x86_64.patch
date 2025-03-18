@@ -1,0 +1,11 @@
+--- original/fontconfig-2.16.0/meson.build	2025-01-17 16:15:05
++++ fontconfig-2.16.0/meson.build	2025-03-18 12:06:39
+@@ -194,7 +194,7 @@
+ # Check for libintl.h
+ opt_nls = get_option('nls')
+ libintl_dep = dependency('intl', required: false, fallback: ['libintl', 'libintl_dep'])
+-if libintl_dep.found()
++if opt_nls.allowed() and libintl_dep.found()
+   conf.set('ENABLE_NLS', opt_nls.allowed().to_int())
+   deps += [libintl_dep]
+ else
