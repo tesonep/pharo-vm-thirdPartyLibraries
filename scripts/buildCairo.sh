@@ -6,7 +6,7 @@ source "$INCLUDE_DIR/common.inc"
 
 pushd $BUILD_DIR
 
-downloadAndUntar https://www.cairographics.org/releases/cairo-$CAIRO_VERSION.tar.xz cairo-$CAIRO_VERSION.tar.xz cairo-$CAIRO_VERSION
+downloadAndUntar https://files.pharo.org/vm/thirdParty-src/cairo-$CAIRO_VERSION.tar.xz cairo-$CAIRO_VERSION.tar.xz cairo-$CAIRO_VERSION
 buildUsingMeson cairo $CAIRO_VERSION cairo-$CAIRO_VERSION \
   -Dglib=disabled -Dfreetype=enabled -Dfontconfig=enabled -Dlzo=disabled -Dxlib=disabled -Dxcb=disabled\
   --default-library shared

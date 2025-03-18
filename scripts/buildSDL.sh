@@ -6,7 +6,7 @@ source "$INCLUDE_DIR/common.inc"
 
 pushd $BUILD_DIR
 
-downloadAndUntar https://libsdl.org/release/SDL2-$SDL2_VERSION.tar.gz SDL2-$SDL2_VERSION.tar.gz SDL2-$SDL2_VERSION
+downloadAndUntar https://files.pharo.org/vm/thirdParty-src/SDL2-$SDL2_VERSION.tar.gz SDL2-$SDL2_VERSION.tar.gz SDL2-$SDL2_VERSION
 
 applyPatch SDL
 

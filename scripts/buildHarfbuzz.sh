@@ -6,7 +6,7 @@ source "$INCLUDE_DIR/common.inc"
 
 pushd $BUILD_DIR
 
-downloadAndUntar https://github.com/harfbuzz/harfbuzz/releases/download/$HARFBUZZ_VERSION/harfbuzz-$HARFBUZZ_VERSION.tar.xz harfbuzz-$HARFBUZZ_VERSION.tar.xz cairo-$HARFBUZZ_VERSION
+downloadAndUntar https://files.pharo.org/vm/thirdParty-src/harfbuzz-$HARFBUZZ_VERSION.tar.xz harfbuzz-$HARFBUZZ_VERSION.tar.xz cairo-$HARFBUZZ_VERSION
 buildUsingMeson harfbuzz $HARFBUZZ_VERSION harfbuzz-$HARFBUZZ_VERSION -Dglib=disabled -Dicu=disabled --default-library shared -Dintrospection=disabled -Dgobject=disabled
 
 install_name_tool -id "@executable_path/Plugins/libharfbuzz.0.dylib" lib/libharfbuzz.0.dylib 

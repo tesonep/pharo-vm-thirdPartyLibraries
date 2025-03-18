@@ -6,7 +6,7 @@ source "$INCLUDE_DIR/common.inc"
 
 pushd $BUILD_DIR
 
-downloadAndUntar https://download.savannah.gnu.org/releases/freetype/freetype-$FREETYPE_VERSION.tar.gz freetype-$FREETYPE_VERSION.tar.gz freetype-$FREETYPE_VERSION
+downloadAndUntar https://files.pharo.org/vm/thirdParty-src/freetype-$FREETYPE_VERSION.tar.gz freetype-$FREETYPE_VERSION.tar.gz freetype-$FREETYPE_VERSION
 
 #First we compile it without harfbuzz, as there is a cyclic dependency. 
 #We need to compile it twice.
