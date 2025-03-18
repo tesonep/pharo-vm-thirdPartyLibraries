@@ -10,6 +10,6 @@ downloadAndUntar https://files.pharo.org/vm/thirdParty-src/libgit2-$LIBGIT2_VERS
 
 buildUsingCMake libgit2 $LIBGIT2_VERSION libgit2-$LIBGIT2_VERSION -DCMAKE_SHARED_LIBRARY_NAME_WITH_VERSION=ON -DBUILD_EXAMPLES=ON
 
-#install_name_tool -id @executable_path/Plugins/libSDL2-2.0.0.dylib lib/libSDL2-2.0.0.dylib
+install_name_tool -id @executable_path/Plugins/libgit2-1.9.1.9.0.dylib lib/libgit2-1.9.1.9.0.dylib
 
 popd
