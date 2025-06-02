@@ -20,4 +20,4 @@ set -e
 
 ./scripts/buildLibgit2.sh
 
-./scripts/packageSDL.sh
+./scripts/packageOSX.sh
