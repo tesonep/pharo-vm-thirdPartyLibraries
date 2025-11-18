@@ -18,6 +18,8 @@ set -e
 
 ./scripts/buildFreetype-secondTime.sh
 
+./scripts/buildOpenssl.sh
+./scripts/buildLibssh2.sh
 ./scripts/buildLibgit2.sh
 
 ./scripts/packageOSX.sh
