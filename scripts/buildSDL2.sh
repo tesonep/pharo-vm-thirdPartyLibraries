@@ -8,9 +8,9 @@ pushd $BUILD_DIR
 
 downloadAndUntar https://files.pharo.org/vm/thirdParty-src/SDL2-$SDL2_VERSION.tar.gz SDL2-$SDL2_VERSION.tar.gz SDL2-$SDL2_VERSION
 
-applyPatch SDL
+applyPatch SDL2
 
-buildUsingCMake SDL $SDL2_VERSION SDL2-$SDL2_VERSION
+buildUsingCMake SDL2 $SDL2_VERSION SDL2-$SDL2_VERSION
 
 install_name_tool -id @executable_path/Plugins/libSDL2-2.0.0.dylib lib/libSDL2-2.0.0.dylib
 
