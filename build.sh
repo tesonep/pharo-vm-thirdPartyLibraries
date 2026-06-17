@@ -5,6 +5,7 @@ set -e
 
 
 ./scripts/buildSDL2.sh
+./scripts/buildSDL3.sh
 ./scripts/buildZLib.sh
 ./scripts/buildLibPNG.sh
 
