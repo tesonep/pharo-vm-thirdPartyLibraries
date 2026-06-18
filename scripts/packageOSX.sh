@@ -9,6 +9,7 @@ pushd $BUILD_DIR
 mkdir -p packages
 
 buildPackage SDL2 $SDL2_VERSION "libSDL2*.dylib"
+buildPackage SDL3 $SDL3_VERSION "libSDL3*.dylib"
 buildPackage cairo $CAIRO_VERSION "libcairo.*dylib"
 buildPackage fontconfig $FONTCONFIG_VERSION "libfontconfig.*dylib"
 buildPackage freetype $FREETYPE_VERSION "libfreetype.*dylib"
