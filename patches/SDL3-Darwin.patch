@@ -1,7 +1,6 @@
-diff --git a/src/video/cocoa/SDL_cocoakeyboard.h b/src/video/cocoa/SDL_cocoakeyboard.h
-index 3674c1180..980da7971 100644
---- a/src/video/cocoa/SDL_cocoakeyboard.h
-+++ b/src/video/cocoa/SDL_cocoakeyboard.h
+diff -Naur original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.h SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.h
+--- original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.h	2026-01-01 09:48:18.000000000 -0300
++++ SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.h	2026-06-18 01:27:53.198475249 -0400
 @@ -26,6 +26,7 @@
  extern void Cocoa_InitKeyboard(SDL_VideoDevice *_this);
  extern void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event);
@@ -10,11 +9,10 @@ index 3674c1180..980da7971 100644
  
  extern bool Cocoa_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
  extern bool Cocoa_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-diff --git a/src/video/cocoa/SDL_cocoakeyboard.m b/src/video/cocoa/SDL_cocoakeyboard.m
-index dfec20fe7..be118798c 100644
---- a/src/video/cocoa/SDL_cocoakeyboard.m
-+++ b/src/video/cocoa/SDL_cocoakeyboard.m
-@@ -248,7 +248,7 @@ static bool IsModifierKeyPressed(unsigned int flags,
+diff -Naur original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.m SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.m
+--- original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.m	2026-01-01 09:48:18.000000000 -0300
++++ SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.m	2026-06-18 01:27:53.200959672 -0400
+@@ -248,7 +248,7 @@
      return target_pressed;
  }
  
@@ -23,7 +21,7 @@ index dfec20fe7..be118798c 100644
  {
      bool pressed = false;
  
-@@ -280,13 +280,23 @@ static void HandleModifiers(SDL_VideoDevice *_this, SDL_Scancode code, unsigned
+@@ -280,13 +280,23 @@
          return;
      }
  
@@ -51,7 +49,7 @@ index dfec20fe7..be118798c 100644
  static void UpdateKeymap(SDL_CocoaVideoData *data, bool send_event)
  {
      TISInputSourceRef key_layout;
-@@ -545,6 +555,8 @@ void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event)
+@@ -545,6 +555,8 @@
              UpdateKeymap(data, true);
          }
  
@@ -60,7 +58,7 @@ index dfec20fe7..be118798c 100644
  #ifdef DEBUG_SCANCODES
          if (code == SDL_SCANCODE_UNKNOWN) {
              SDL_Log("The key you just pressed is not recognized by SDL. To help get this fixed, report this to the SDL forums/mailing list <https://discourse.libsdl.org/> or to Christian Walther <cwalther@gmx.ch>. Mac virtual key code is %d.", scancode);
-@@ -563,15 +575,7 @@ void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event)
+@@ -563,15 +575,7 @@
          break;
      case NSEventTypeFlagsChanged: {
          // see if the new modifierFlags mean any existing keys should be pressed/released...
@@ -77,11 +75,10 @@ index dfec20fe7..be118798c 100644
          break;
      }
      default: // just to avoid compiler warnings
-diff --git a/src/video/cocoa/SDL_cocoawindow.m b/src/video/cocoa/SDL_cocoawindow.m
-index 3b8fa7a04..1ea19a2e9 100644
---- a/src/video/cocoa/SDL_cocoawindow.m
-+++ b/src/video/cocoa/SDL_cocoawindow.m
-@@ -1341,6 +1341,9 @@ static NSCursor *Cocoa_GetDesiredCursor(void)
+diff -Naur original/SDL3-3.4.10/src/video/cocoa/SDL_cocoawindow.m SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoawindow.m
+--- original/SDL3-3.4.10/src/video/cocoa/SDL_cocoawindow.m	2026-05-18 09:10:24.000000000 -0400
++++ SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoawindow.m	2026-06-18 01:27:53.210983878 -0400
+@@ -1341,6 +1341,9 @@
      if (isFullscreenSpace && !window->fullscreen_exclusive) {
          Cocoa_ToggleFullscreenSpaceMenuVisibility(window);
      }

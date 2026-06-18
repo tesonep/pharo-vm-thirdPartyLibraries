@@ -1,8 +1,7 @@
-diff --git a/src/video/windows/SDL_windowsevents.c b/src/video/windows/SDL_windowsevents.c
-index 8b1ee1cfc..1cab80c73 100644
---- a/src/video/windows/SDL_windowsevents.c
-+++ b/src/video/windows/SDL_windowsevents.c
-@@ -375,9 +375,8 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, DWORD pos)
+diff -Naur original/SDL3-3.4.10/src/video/windows/SDL_windowsevents.c SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowsevents.c
+--- original/SDL3-3.4.10/src/video/windows/SDL_windowsevents.c	2026-03-30 10:49:46.000000000 -0300
++++ SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowsevents.c	2026-06-18 01:28:22.099614860 -0400
+@@ -375,9 +375,8 @@
          WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
          WIN_UpdateClipCursor(window);
  
@@ -14,7 +13,7 @@ index 8b1ee1cfc..1cab80c73 100644
          WIN_CheckClipboardUpdate(data->videodata);
  
          SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
-@@ -1568,6 +1567,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
+@@ -1568,6 +1567,8 @@
              break;
          }
  
@@ -23,11 +22,10 @@ index 8b1ee1cfc..1cab80c73 100644
          bool virtual_key = false;
          Uint16 rawcode = 0;
          SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
-diff --git a/src/video/windows/SDL_windowskeyboard.c b/src/video/windows/SDL_windowskeyboard.c
-index b114772d8..d2b7d9d7f 100644
---- a/src/video/windows/SDL_windowskeyboard.c
-+++ b/src/video/windows/SDL_windowskeyboard.c
-@@ -247,6 +247,26 @@ void WIN_QuitKeyboard(SDL_VideoDevice *_this)
+diff -Naur original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.c SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.c
+--- original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.c	2026-05-18 09:02:22.000000000 -0400
++++ SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.c	2026-06-18 01:28:22.103767202 -0400
+@@ -247,6 +247,26 @@
      keymap_cache_size = 0;
  }
  
@@ -54,10 +52,9 @@ index b114772d8..d2b7d9d7f 100644
  void WIN_ResetDeadKeys(void)
  {
      /*
-diff --git a/src/video/windows/SDL_windowskeyboard.h b/src/video/windows/SDL_windowskeyboard.h
-index ec0e91d25..8c9e13700 100644
---- a/src/video/windows/SDL_windowskeyboard.h
-+++ b/src/video/windows/SDL_windowskeyboard.h
+diff -Naur original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.h SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.h
+--- original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.h	2026-01-01 09:48:18.000000000 -0300
++++ SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.h	2026-06-18 01:28:22.104870510 -0400
 @@ -26,6 +26,7 @@
  extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
  extern void WIN_UpdateKeymap(bool send_event);
