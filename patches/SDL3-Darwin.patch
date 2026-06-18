@@ -1,0 +1,90 @@
+diff -Naur original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.h SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.h
+--- original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.h	2026-01-01 09:48:18.000000000 -0300
++++ SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.h	2026-06-18 01:27:53.198475249 -0400
+@@ -26,6 +26,7 @@
+ extern void Cocoa_InitKeyboard(SDL_VideoDevice *_this);
+ extern void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event);
+ extern void Cocoa_QuitKeyboard(SDL_VideoDevice *_this);
++extern void Cocoa_UpdateModifiers(unsigned int modifierFlags);
+ 
+ extern bool Cocoa_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ extern bool Cocoa_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
+diff -Naur original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.m SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.m
+--- original/SDL3-3.4.10/src/video/cocoa/SDL_cocoakeyboard.m	2026-01-01 09:48:18.000000000 -0300
++++ SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoakeyboard.m	2026-06-18 01:27:53.200959672 -0400
+@@ -248,7 +248,7 @@
+     return target_pressed;
+ }
+ 
+-static void HandleModifiers(SDL_VideoDevice *_this, SDL_Scancode code, unsigned int modifierFlags)
++static void HandleModifiers(SDL_Scancode code, unsigned int modifierFlags)
+ {
+     bool pressed = false;
+ 
+@@ -280,13 +280,23 @@
+         return;
+     }
+ 
+-    if (pressed) {
+-        SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, 0, code, true);
+-    } else {
+-        SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, 0, code, false);
++    if (pressed != SDL_GetKeyboardState(NULL)[code]) {
++        SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, 0, code, pressed);
+     }
+ }
+ 
++void Cocoa_UpdateModifiers(unsigned int modifierFlags)
++{
++    HandleModifiers(SDL_SCANCODE_LSHIFT, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_LCTRL, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_LALT, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_LGUI, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_RSHIFT, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_RCTRL, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_RALT, modifierFlags);
++    HandleModifiers(SDL_SCANCODE_RGUI, modifierFlags);
++}
++
+ static void UpdateKeymap(SDL_CocoaVideoData *data, bool send_event)
+ {
+     TISInputSourceRef key_layout;
+@@ -545,6 +555,8 @@
+             UpdateKeymap(data, true);
+         }
+ 
++        Cocoa_UpdateModifiers((unsigned int)[event modifierFlags]);
++
+ #ifdef DEBUG_SCANCODES
+         if (code == SDL_SCANCODE_UNKNOWN) {
+             SDL_Log("The key you just pressed is not recognized by SDL. To help get this fixed, report this to the SDL forums/mailing list <https://discourse.libsdl.org/> or to Christian Walther <cwalther@gmx.ch>. Mac virtual key code is %d.", scancode);
+@@ -563,15 +575,7 @@
+         break;
+     case NSEventTypeFlagsChanged: {
+         // see if the new modifierFlags mean any existing keys should be pressed/released...
+-        const unsigned int modflags = (unsigned int)[event modifierFlags];
+-        HandleModifiers(_this, SDL_SCANCODE_LSHIFT, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_LCTRL, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_LALT, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_LGUI, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_RSHIFT, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_RCTRL, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_RALT, modflags);
+-        HandleModifiers(_this, SDL_SCANCODE_RGUI, modflags);
++        Cocoa_UpdateModifiers((unsigned int)[event modifierFlags]);
+         break;
+     }
+     default: // just to avoid compiler warnings
+diff -Naur original/SDL3-3.4.10/src/video/cocoa/SDL_cocoawindow.m SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoawindow.m
+--- original/SDL3-3.4.10/src/video/cocoa/SDL_cocoawindow.m	2026-05-18 09:10:24.000000000 -0400
++++ SDL3-3.4.10-patch-Darwin/src/video/cocoa/SDL_cocoawindow.m	2026-06-18 01:27:53.210983878 -0400
+@@ -1341,6 +1341,9 @@
+     if (isFullscreenSpace && !window->fullscreen_exclusive) {
+         Cocoa_ToggleFullscreenSpaceMenuVisibility(window);
+     }
++
++    Cocoa_UpdateModifiers((unsigned int)[NSEvent modifierFlags]);
++
+     {
+         const unsigned int newflags = [NSEvent modifierFlags] & NSEventModifierFlagCapsLock;
+         _data.videodata.modifierFlags = (_data.videodata.modifierFlags & ~NSEventModifierFlagCapsLock) | newflags;

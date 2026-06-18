@@ -2,9 +2,10 @@
  
 set -x 
 set -e
- 
 
-./scripts/buildSDL.sh
+
+./scripts/buildSDL3.sh
+./scripts/buildSDL2.sh
 ./scripts/buildZLib.sh
 ./scripts/buildLibPNG.sh
 

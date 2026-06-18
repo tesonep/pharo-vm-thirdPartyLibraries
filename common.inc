@@ -44,7 +44,7 @@ function buildUsingCMake(){
 	local libName=$1
 	local version=$2
 	local src=../$3
-	local buildDir=build-$libName$version 
+	local buildDir=build-$libName-$version 
 	local additionalParams="${@:4}"
 
 	mkdir -p $buildDir
@@ -61,7 +61,7 @@ function buildUsingMeson(){
 	local libName=$1
 	local version=$2
 	local src=../$3
-	local buildDir=build-$libName$version 
+	local buildDir=build-$libName-$version 
 	local additionalParams="${@:4}"
 
 	mkdir -p $buildDir
@@ -78,12 +78,23 @@ function buildUsingMeson(){
 function applyPatch(){
 
 	local libName=$1
+	local src=$2
 	local patch_dir=$(realpath "$(dirname ${BASH_SOURCE[0]})/patches")
 
+	# patch -p1 removes first segment of the paths in the diff
+	# We assume that's enough to match the src directory
+	pushd $src
+
+	# Will look for e.g. SDL2-Darwin-arm64.patch, SDL2-Darwin.patch, SDL2.patch
 	if [ -f "$patch_dir/$1-$SYSTEM_NAME.patch" ]; then
-		patch -p --forward -i $patch_dir/$1-$SYSTEM_NAME.patch || true
+		patch -p1 --forward -i $patch_dir/$1-$SYSTEM_NAME.patch || true
+	elif [ -f "$patch_dir/$1-$OS_NAME.patch" ]; then
+		patch -p1 --forward -i $patch_dir/$1-$OS_NAME.patch || true
+	elif [ -f "$patch_dir/$1.patch" ]; then
+		patch -p1 --forward -i $patch_dir/$1.patch || true
 	fi
 
+	popd
 }
 
 function buildPackage(){

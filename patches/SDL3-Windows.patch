@@ -1,0 +1,65 @@
+diff -Naur original/SDL3-3.4.10/src/video/windows/SDL_windowsevents.c SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowsevents.c
+--- original/SDL3-3.4.10/src/video/windows/SDL_windowsevents.c	2026-03-30 10:49:46.000000000 -0300
++++ SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowsevents.c	2026-06-18 01:28:22.099614860 -0400
+@@ -375,9 +375,8 @@
+         WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
+         WIN_UpdateClipCursor(window);
+ 
+-        /*
+-         * FIXME: Update keyboard state
+-         */
++        WIN_UpdateModifiers();
++
+         WIN_CheckClipboardUpdate(data->videodata);
+ 
+         SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
+@@ -1568,6 +1567,8 @@
+             break;
+         }
+ 
++        WIN_UpdateModifiers();
++
+         bool virtual_key = false;
+         Uint16 rawcode = 0;
+         SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
+diff -Naur original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.c SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.c
+--- original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.c	2026-05-18 09:02:22.000000000 -0400
++++ SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.c	2026-06-18 01:28:22.103767202 -0400
+@@ -247,6 +247,26 @@
+     keymap_cache_size = 0;
+ }
+ 
++static void WIN_HandleModifier(SDL_Scancode code, int vk)
++{
++    bool pressed = (GetAsyncKeyState(vk) & 0x8000) != 0;
++    if (pressed != SDL_GetKeyboardState(NULL)[code]) {
++        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, code, pressed);
++    }
++}
++
++void WIN_UpdateModifiers(void)
++{
++    WIN_HandleModifier(SDL_SCANCODE_LSHIFT, VK_LSHIFT);
++    WIN_HandleModifier(SDL_SCANCODE_RSHIFT, VK_RSHIFT);
++    WIN_HandleModifier(SDL_SCANCODE_LCTRL, VK_LCONTROL);
++    WIN_HandleModifier(SDL_SCANCODE_RCTRL, VK_RCONTROL);
++    WIN_HandleModifier(SDL_SCANCODE_LALT, VK_LMENU);
++    WIN_HandleModifier(SDL_SCANCODE_RALT, VK_RMENU);
++    WIN_HandleModifier(SDL_SCANCODE_LGUI, VK_LWIN);
++    WIN_HandleModifier(SDL_SCANCODE_RGUI, VK_RWIN);
++}
++
+ void WIN_ResetDeadKeys(void)
+ {
+     /*
+diff -Naur original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.h SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.h
+--- original/SDL3-3.4.10/src/video/windows/SDL_windowskeyboard.h	2026-01-01 09:48:18.000000000 -0300
++++ SDL3-3.4.10-patch-Windows/src/video/windows/SDL_windowskeyboard.h	2026-06-18 01:28:22.104870510 -0400
+@@ -26,6 +26,7 @@
+ extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
+ extern void WIN_UpdateKeymap(bool send_event);
+ extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
++extern void WIN_UpdateModifiers(void);
+ 
+ extern void WIN_ResetDeadKeys(void);
+ 
