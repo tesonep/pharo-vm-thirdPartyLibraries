@@ -8,7 +8,7 @@ SRC_DIR="SDL3-$SDL3_VERSION"
 
 pushd $BUILD_DIR
 
-downloadAndUntar https://github.com/libsdl-org/SDL/releases/download/release-$SDL3_VERSION/SDL3-$SDL3_VERSION.tar.gz $SRC_DIR.tar.gz $SRC_DIR
+downloadAndUntar https://files.pharo.org/vm/thirdParty-src/$SRC_DIR.tar.gz $SRC_DIR.tar.gz $SRC_DIR
 
 applyPatch SDL3 $SRC_DIR
 
