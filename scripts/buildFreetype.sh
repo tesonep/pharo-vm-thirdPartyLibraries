@@ -5,8 +5,7 @@ INCLUDE_DIR=$(realpath "$(dirname ${BASH_SOURCE[0]})/..")
 source "$INCLUDE_DIR/common.inc"
 
 SRC_DIR="freetype-$FREETYPE_VERSION"
-#URL="https://files.pharo.org/vm/thirdParty-src/$SRC_DIR.tar.gz"
-URL="https://download.savannah.gnu.org/releases/freetype/$SRC_DIR.tar.gz"
+URL="https://files.pharo.org/vm/thirdParty-src/$SRC_DIR.tar.gz"
 
 pushd $BUILD_DIR
 

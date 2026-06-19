@@ -5,12 +5,11 @@ INCLUDE_DIR=$(realpath "$(dirname ${BASH_SOURCE[0]})/..")
 source "$INCLUDE_DIR/common.inc"
 
 SRC_DIR="harfbuzz-$HARFBUZZ_VERSION"
-#URL="https://files.pharo.org/vm/thirdParty-src/$SRC_DIR.tar.xz"
-URL="https://github.com/harfbuzz/harfbuzz/releases/download/$HARFBUZZ_VERSION/$SRC_DIR.tar.xz"
+URL="https://files.pharo.org/vm/thirdParty-src/$SRC_DIR.tar.xz"
 
 pushd $BUILD_DIR
 
-downloadAndUntar $URL $SRC_DIR.tar.xz cairo-$HARFBUZZ_VERSION
+downloadAndUntar $URL $SRC_DIR.tar.xz $SRC_DIR
 buildUsingMeson harfbuzz $HARFBUZZ_VERSION $SRC_DIR -Dglib=disabled -Dicu=disabled --default-library shared -Dintrospection=disabled -Dgobject=disabled
 
 install_name_tool -id "@executable_path/Plugins/libharfbuzz.0.dylib" lib/libharfbuzz.0.dylib 
